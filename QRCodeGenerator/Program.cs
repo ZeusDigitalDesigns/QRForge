@@ -9,7 +9,7 @@ class Program
     static void Main(string[] args)
     {
         // The URL for the QR code
-        string targetUrl = "https://drive.google.com/file/d/14DPTsqgTKO258yBwhklDh2P1wSZdJmrH/view?usp=sharing";
+        string targetUrl = "https://drive.google.com/your-drive-link-here";
 
         QRCoder.QRCodeGenerator generator = new QRCoder.QRCodeGenerator();
 
@@ -24,16 +24,23 @@ class Program
         string desktopPath = Environment.GetFolderPath(
             Environment.SpecialFolder.Desktop);
 
-        // Combine the Desktop path with our desired file name safely
-        string filePath = Path.Combine(
-            desktopPath, 
-            "FootballSeniorNight.png");
+        // Add a timestamp so the filename is always 100% unique
+        string timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string fileName = $"YourFileName_{timeStamp}.png";
+        
+        string filePath = Path.Combine(desktopPath, fileName);
 
-        // Write the raw bytes directly to the absolute path
-        File.WriteAllBytes(filePath, qrCodeBytes);
+        // FileMode.CreateNew guarantees we never follow a planted symlink 
+        // or overwrite an existing file by accident.
+        using (FileStream stream = new FileStream(
+                   filePath, 
+                   FileMode.CreateNew, 
+                   FileAccess.Write))
+        {
+            stream.Write(qrCodeBytes, 0, qrCodeBytes.Length);
+        }
 
-        // Print the full absolute path so we know exactly where it went
-        Console.WriteLine("Hell yeah. QR Code saved at: " + filePath);
+        Console.WriteLine("Hell yeah. Secured QR Code saved at: " + filePath);
         
         Console.WriteLine("Press Enter to exit...");
         Console.ReadLine();
