@@ -1,31 +1,48 @@
 ﻿using System;
+using System.IO; 
 using QRCoder;
 
-// This fixes Rider's warning and groups our code nicely
 namespace QRCodeGenerator;
 
 class Program
 {
     static void Main(string[] args)
     {
-        // The URL or text we want to turn into a QR code
-        string targetUrl = "https://www.eatonville.wednet.edu";
+        // The URL for the QR code
+        string targetUrl = "https://drive.google.com/your-drive-link-here";
 
-        // Fully qualifying QRCoder.QRCodeGenerator prevents naming clashes
         QRCoder.QRCodeGenerator generator = new QRCoder.QRCodeGenerator();
 
-        // Create the data object with our URL and error correction
         QRCodeData data = generator.CreateQrCode(
             targetUrl, 
             QRCoder.QRCodeGenerator.ECCLevel.Q);
 
-        // Create an ASCII QR code to see it right in the terminal
-        AsciiQRCode asciiQr = new AsciiQRCode(data);
+        PngByteQRCode pngQr = new PngByteQRCode(data);
+        byte[] qrCodeBytes = pngQr.GetGraphic(20);
 
-        // Generate the graphic as a single formatted string
-        string qrGraphic = asciiQr.GetGraphic(1);
+        // Get the absolute path to your Mac's Desktop
+        string desktopPath = Environment.GetFolderPath(
+            Environment.SpecialFolder.Desktop);
 
-        // Spit it out to the console
-        Console.WriteLine(qrGraphic);
+        // Add a timestamp so the filename is always 100% unique
+        string timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+        string fileName = $"YourFileName_{timeStamp}.png";
+        
+        string filePath = Path.Combine(desktopPath, fileName);
+
+        // FileMode.CreateNew guarantees we never follow a planted symlink 
+        // or overwrite an existing file by accident.
+        using (FileStream stream = new FileStream(
+                   filePath, 
+                   FileMode.CreateNew, 
+                   FileAccess.Write))
+        {
+            stream.Write(qrCodeBytes, 0, qrCodeBytes.Length);
+        }
+
+        Console.WriteLine("Hell yeah. Secured QR Code saved at: " + filePath);
+        
+        Console.WriteLine("Press Enter to exit...");
+        Console.ReadLine();
     }
 }
