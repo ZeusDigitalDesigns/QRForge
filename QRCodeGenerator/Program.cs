@@ -9,32 +9,32 @@ class Program
     static void Main(string[] args)
     {
         // The URL for the QR code
-        string targetUrl = "https://drive.google.com/file/d/1V3SoUEjjDZzhtUVXqT4OJmKCp0ZFRMPD/view?usp=sharing";
+        string targetUrl = "https://drive.google.com/file/d/14DPTsqgTKO258yBwhklDh2P1wSZdJmrH/view?usp=sharing";
 
-        // Initialize the generator
         QRCoder.QRCodeGenerator generator = new QRCoder.QRCodeGenerator();
 
-        // Create the QR data object
         QRCodeData data = generator.CreateQrCode(
             targetUrl, 
             QRCoder.QRCodeGenerator.ECCLevel.Q);
 
-        // Swap out ASCII for a PNG byte array generator
         PngByteQRCode pngQr = new PngByteQRCode(data);
-
-        // Generate the image as bytes (20 pixels per block makes it crisp)
         byte[] qrCodeBytes = pngQr.GetGraphic(20);
 
-        // Define the file name
-        string filePath = "FootballSeniorNight.png";
+        // Get the absolute path to your Mac's Desktop
+        string desktopPath = Environment.GetFolderPath(
+            Environment.SpecialFolder.Desktop);
 
-        // Write the raw bytes directly to a PNG file
+        // Combine the Desktop path with our desired file name safely
+        string filePath = Path.Combine(
+            desktopPath, 
+            "FootballSeniorNight.png");
+
+        // Write the raw bytes directly to the absolute path
         File.WriteAllBytes(filePath, qrCodeBytes);
 
-        // Let ourselves know where the file went and that it worked
-        Console.WriteLine("Hell yeah. QR Code saved as: " + filePath);
+        // Print the full absolute path so we know exactly where it went
+        Console.WriteLine("Hell yeah. QR Code saved at: " + filePath);
         
-        // Pause so the console doesn't instantly close
         Console.WriteLine("Press Enter to exit...");
         Console.ReadLine();
     }
