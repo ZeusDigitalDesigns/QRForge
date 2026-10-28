@@ -1,9 +1,52 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="HeathersQr.UI.MainWindow"
-        Title="HeathersQr.UI">
-    Welcome to Avalonia!
+        Title="Heathers QR Generator"
+        Width="450" Height="250"
+        WindowStartupLocation="CenterScreen"
+        Background="MediumBlue">
+        
+    <!-- Override Avalonia's annoying default hover effects -->
+    <Window.Styles>
+        <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="MediumBlue" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="TextBlock.Foreground" Value="White" />
+        </Style>
+    </Window.Styles>
+
+    <StackPanel Margin="20" Spacing="15">
+        
+        <TextBlock Text="Paste your Google Drive URL below:" 
+                   FontWeight="Bold" 
+                   Foreground="White" 
+                   TextAlignment="Center" />
+        
+        <TextBox Name="UrlTextBox" 
+                 Watermark="e.g., https://drive.google.com/..." 
+                 Background="Black" 
+                 Foreground="White" 
+                 BorderBrush="Black" 
+                 BorderThickness="2" 
+                 />
+        
+        <!-- The inline properties define the normal, non-hovered state -->
+        <Button Name="GenerateButton" 
+                Content="Generate QR Code" 
+                HorizontalAlignment="Stretch" 
+                HorizontalContentAlignment="Center" 
+                Background="Black" 
+                Foreground="White" 
+                FontWeight="Bold" 
+                BorderBrush="Black" 
+                BorderThickness="2" />
+        
+        <TextBlock Name="StatusText" 
+                   Text="Ready to generate." 
+                   Foreground="LightGray" 
+                   TextWrapping="Wrap"
+                   TextAlignment="Center" />
+                   
+    </StackPanel>
 </Window>
