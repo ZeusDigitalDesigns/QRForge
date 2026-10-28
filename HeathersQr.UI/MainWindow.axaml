@@ -23,7 +23,7 @@
                    Foreground="White" 
                    TextAlignment="Center" />
         
-        <TextBox Name="UrlTextBox" 
+        <TextBox x:Name="UrlTextBox" 
                  Watermark="e.g., https://drive.google.com/..." 
                  Background="Black" 
                  Foreground="White" 
@@ -32,7 +32,7 @@
                  />
         
         <!-- The inline properties define the normal, non-hovered state -->
-        <Button Name="GenerateButton" 
+        <Button x:Name="GenerateButton" 
                 Content="Generate QR Code" 
                 HorizontalAlignment="Stretch" 
                 HorizontalContentAlignment="Center" 
@@ -42,7 +42,7 @@
                 BorderBrush="Black" 
                 BorderThickness="2" />
         
-        <TextBlock Name="StatusText" 
+        <TextBlock x:Name="StatusText" 
                    Text="Ready to generate." 
                    Foreground="LightGray" 
                    TextWrapping="Wrap"

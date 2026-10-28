@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Media; // We need this to change text colors
+using Avalonia.Media; 
 using System;
 using System.IO;
 using QRCoder;
@@ -12,27 +12,53 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        
-        // Wire up the button click event to our custom method below
         GenerateButton.Click += GenerateButton_Click;
     }
 
     private void GenerateButton_Click(object? sender, RoutedEventArgs e)
     {
-        // Get the URL from the text box
         string targetUrl = UrlTextBox.Text ?? "";
 
-        // If she left it blank, give a friendly warning and stop
-        if (string.IsNullOrWhiteSpace(targetUrl))
+        // Validate input is an actual usable HTTP/HTTPS URL
+        bool isValidUrl = Uri.TryCreate(
+            targetUrl, 
+            UriKind.Absolute, 
+            out Uri? uriResult) 
+            && (uriResult.Scheme == Uri.UriSchemeHttp 
+            || uriResult.Scheme == Uri.UriSchemeHttps);
+
+        if (!isValidUrl)
         {
-            StatusText.Text = "Hold up! You need to enter a URL first.";
-            StatusText.Foreground = Brushes.DarkMagenta;
+            StatusText.Text = "Hold up! Enter a valid HTTP or HTTPS URL.";
+            StatusText.Foreground = Brushes.Orange;
             return;
         }
 
+        // Check that the Desktop path is not completely empty
+        string desktopPath = Environment.GetFolderPath(
+            Environment.SpecialFolder.Desktop);
+
+        if (string.IsNullOrWhiteSpace(desktopPath))
+        {
+            StatusText.Text = "Error: Cannot locate your Desktop folder.";
+            StatusText.Foreground = Brushes.Red;
+            return;
+        }
+
+        // Ensure Desktop directory actually exists before writing
+        if (!Directory.Exists(desktopPath))
+        {
+            Directory.CreateDirectory(desktopPath);
+        }
+
+        // Add milliseconds (_fff) to prevent same-second crashes
+        string timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss_fff");
+        string fileName = $"HeathersQr_{timeStamp}.png";
+        
+        string filePath = Path.Combine(desktopPath, fileName);
+
         try
         {
-            // Generate the QR Code logic we already perfected
             QRCoder.QRCodeGenerator gen = new QRCoder.QRCodeGenerator();
             QRCodeData data = gen.CreateQrCode(
                 targetUrl, 
@@ -41,16 +67,6 @@ public partial class MainWindow : Window
             PngByteQRCode pngQr = new PngByteQRCode(data);
             byte[] qrCodeBytes = pngQr.GetGraphic(20);
 
-            // Get the Desktop path and make a unique filename
-            string desktopPath = Environment.GetFolderPath(
-                Environment.SpecialFolder.Desktop);
-            
-            string timeStamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
-            string fileName = $"HeathersQr_{timeStamp}.png";
-            
-            string filePath = Path.Combine(desktopPath, fileName);
-
-            // Write the file securely so the Sourcery bot stays happy
             using (FileStream stream = new FileStream(
                 filePath, 
                 FileMode.CreateNew, 
@@ -59,15 +75,19 @@ public partial class MainWindow : Window
                 stream.Write(qrCodeBytes, 0, qrCodeBytes.Length);
             }
 
-            // Tell the UI it worked perfectly
             StatusText.Text = $"Success! Saved to Desktop: {fileName}";
-            StatusText.Foreground = Brushes.LimeGreen;
+            StatusText.Foreground = Brushes.LightGreen;
         }
         catch (Exception ex)
         {
-            // If something goes to shit, print the error to the screen
+            // Delete the incomplete file if the write process fails
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+
             StatusText.Text = "Damn it, something broke: " + ex.Message;
-            StatusText.Foreground = Brushes.Purple;
+            StatusText.Foreground = Brushes.Red;
         }
     }
 }
