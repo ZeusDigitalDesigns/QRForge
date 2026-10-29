@@ -1,0 +1,58 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="QRForge.UI.MainWindow"
+        Title="QRForge"
+        Width="450" Height="250"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource ForgeBackgroundBrush}">
+    
+    <Window.Styles>
+        <!-- Override Avalonia's hover effects using our new colors -->
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" 
+                    Value="{DynamicResource IndustrialSilver}" />
+            <Setter Property="BorderBrush" 
+                    Value="{DynamicResource LightOrangeBrush}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <!-- Dark text on silver background so you can actually read it -->
+            <Setter Property="TextBlock.Foreground" 
+                    Value="{DynamicResource DarkSteelBrush}" />
+        </Style>
+    </Window.Styles>
+
+    <StackPanel Margin="20" Spacing="15">
+        
+        
+        <TextBlock Text="Paste your URL below:" 
+                   FontWeight="Bold" 
+                   Foreground="{DynamicResource IndustrialSilver}" 
+                   TextAlignment="Center" />
+        
+        
+        <TextBox x:Name="UrlTextBox" 
+                 Watermark="e.g., https://canva.com/..." 
+                 Background="{DynamicResource DarkSteelBrush}" 
+                 Foreground="{DynamicResource LightOrangeBrush}" 
+                 BorderBrush="{DynamicResource LightOrangeBrush}" 
+                 BorderThickness="1" />
+        
+        
+        <Button x:Name="GenerateButton" 
+                Content="Forge QR Code" 
+                HorizontalAlignment="Stretch" 
+                HorizontalContentAlignment="Center" 
+                Background="{DynamicResource SteelBlueBrush}" 
+                Foreground="{DynamicResource LightOrangeBrush}" 
+                FontWeight="Bold" 
+                BorderBrush="{DynamicResource LightOrangeBrush}" 
+                BorderThickness="1" />
+        
+        
+        <TextBlock x:Name="StatusText" 
+                   Text="Ready to forge." 
+                   Foreground="{DynamicResource IndustrialSilver}" 
+                   TextWrapping="Wrap"
+                   TextAlignment="Center" />
+                   
+    </StackPanel>
+</Window>

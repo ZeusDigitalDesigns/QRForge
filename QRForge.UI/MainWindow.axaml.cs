@@ -1,11 +1,11 @@
-using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Media; 
 using System;
 using System.IO;
+using Avalonia.Controls;
+using Avalonia.Interactivity;
+using Avalonia.Media;
 using QRCoder;
 
-namespace HeathersQr.UI;
+namespace QRForge.UI;
 
 public partial class MainWindow : Window
 {

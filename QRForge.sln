@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRCodeGenerator", "QRCodeGenerator\QRCodeGenerator.csproj", "{D7A8EFD6-4E95-40BE-95E4-FBF260E62A3F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRForge.Core", "QRForge.Core\QRForge.Core.csproj", "{D7A8EFD6-4E95-40BE-95E4-FBF260E62A3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HeathersQr.UI", "HeathersQr.UI\HeathersQr.UI.csproj", "{5265C14A-8537-4B67-8004-0AF434A816B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRForge.UI", "QRForge.UI\QRForge.UI.csproj", "{5265C14A-8537-4B67-8004-0AF434A816B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
