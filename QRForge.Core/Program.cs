@@ -1,8 +1,6 @@
-﻿using System;
-using System.IO; 
-using QRCoder;
+﻿using QRCoder;
 
-namespace QRCodeGenerator;
+namespace QRForge.Core;
 
 class Program
 {

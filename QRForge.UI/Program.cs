@@ -1,7 +1,7 @@
-﻿using Avalonia;
-using System;
+﻿using System;
+using Avalonia;
 
-namespace HeathersQr.UI;
+namespace QRForge.UI;
 
 class Program
 {
