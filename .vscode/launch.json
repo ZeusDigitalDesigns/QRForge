@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Chrome",
+            "request": "launch",
+            "type": "chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },
+        {
+            "name": "Launch QRForge (UI)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/QRForge.UI/bin/Debug/net10.0/QRForge.UI.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/QRForge.UI",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "Launch QRForge (Core CLI)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/QRForge.Core/bin/Debug/net10.0/QRForge.Core.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/QRForge.Core",
+            "stopAtEntry": false,
+            "console": "integratedTerminal"
+        }
+    ]
+}
