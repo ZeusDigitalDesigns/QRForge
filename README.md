@@ -38,3 +38,11 @@ developers and users who need to generate and log QR codes efficiently.
 2. Open the solution in JetBrains Rider.
 3. Ensure your SQL Server container is running via OrbStack.
 4. Build and run the `QRForge.UI` project.
+
+### Images 
+
+
+<img width="387" height="366" alt="Screen Shot 2026-11-10 at 18 37 37 PM" src="https://github.com/user-attachments/assets/853355b4-dd54-44f7-a82d-dba84a17a566" />
+
+
+<img width="460" height="283" alt="Screen Shot 2026-11-10 at 18 36 23 PM" src="https://github.com/user-attachments/assets/f864e893-ea13-45b6-af67-6f67e812f14a" />
